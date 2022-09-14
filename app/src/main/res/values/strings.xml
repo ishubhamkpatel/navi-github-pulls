@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Git</string>
+
+    <string name="label_fragment_pull_requests">PullRequestsFragment</string>
+    <string name="label_fragment_error">ErrorFragment</string>
+
+    <string name="cd_img_toolbar_back_btn">Back</string>
+    <string name="cd_img_pr_user">User</string>
+    <string name="cd_img_error_icon">Error</string>
+
+    <string name="text_toolbar_closed_prs">Github Closed Pull Requests</string>
+    <string name="text_error_no_internet_title">No internet!</string>
+    <string name="text_error_no_internet_message">Looks like you don\'t have an active internet connection, \n please check your connectivity and try again.</string>
+    <string name="text_error_unknown_title">Something went wrong!</string>
+    <string name="text_error_unknown_message">Please try again.</string>
+    <string name="text_btn_retry">Retry</string>
+    <string name="text_error_title">HTTP %d</string>
+    <string name="text_pull_requests_empty">No pull requests found, \n please try again later.</string>
+</resources>

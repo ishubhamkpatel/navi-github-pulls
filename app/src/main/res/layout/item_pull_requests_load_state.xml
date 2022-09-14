@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_pull_requests_load_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SmallSp"
+        tools:text="@string/text_error_unknown_message"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progress_pull_requests_load"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:indicatorColor="@color/calm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_retry_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_gray_btn"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/text_btn_retry"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_pull_requests_load_error"
+        tools:ignore="SmallSp"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

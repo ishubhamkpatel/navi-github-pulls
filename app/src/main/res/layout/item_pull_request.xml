@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_pull_request_item"
+        android:padding="10dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_pr_user"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/cd_img_pr_user"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Image.Circle"
+            tools:src="@drawable/ic_launcher_foreground" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_pr_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/img_pr_user"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Title: Hotfixes for crashes" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_pr_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/img_pr_user"
+            app:layout_constraintTop_toBottomOf="@id/txt_pr_title"
+            tools:ignore="SmallSp"
+            tools:text="Author: shubham-patel" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_pr_created_dt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"
+            android:textSize="9sp"
+            app:layout_constraintStart_toEndOf="@id/img_pr_user"
+            app:layout_constraintTop_toBottomOf="@id/txt_pr_user_name"
+            tools:ignore="SmallSp"
+            tools:text="Created: 10th Sep 2022, 10:00AM" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_pr_closed_dt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_pr_user_name"
+            tools:ignore="SmallSp"
+            tools:text="Closed: 11th Sep 2022, 10:00PM" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

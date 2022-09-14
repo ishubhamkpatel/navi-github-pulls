@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="16dp"
+    app:cardUseCompatPadding="true"
+    tools:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_error"
+        android:paddingHorizontal="26dp"
+        android:paddingVertical="32dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_error_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/text_error_no_internet_title" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_error_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/cd_img_error_icon"
+            android:src="@drawable/ic_baseline_error_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_error_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintTop_toBottomOf="@id/img_error_icon"
+            tools:text="@string/text_error_no_internet_message" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_fallback_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_gray_btn"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_error_message"
+            tools:text="@string/text_btn_retry" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

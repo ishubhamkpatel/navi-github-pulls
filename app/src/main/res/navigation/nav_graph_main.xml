@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/pull_requests_fragment">
+
+    <fragment
+        android:id="@+id/pull_requests_fragment"
+        android:name="com.navi.git.main.fragment.PullRequestsFragment"
+        android:label="@string/label_fragment_pull_requests"
+        tools:layout="@layout/fragment_pull_requests" />
+
+    <action
+        android:id="@+id/action_pull_requests_fragment"
+        app:destination="@id/pull_requests_fragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/pull_requests_fragment"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/error_fragment"
+        android:name="com.navi.git.main.fragment.ErrorFragment"
+        android:label="@string/label_fragment_error"
+        tools:layout="@layout/fragment_error" />
+
+    <action
+        android:id="@+id/action_error_fragment"
+        app:destination="@id/error_fragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/error_fragment"
+        app:popUpToInclusive="true" />
+
+</navigation>
