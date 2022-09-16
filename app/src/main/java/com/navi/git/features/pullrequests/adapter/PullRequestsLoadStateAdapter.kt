@@ -1,4 +1,4 @@
-package com.navi.git.main.adapter
+package com.navi.git.features.pullrequests.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

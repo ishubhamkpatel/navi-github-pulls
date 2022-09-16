@@ -1,4 +1,4 @@
-package com.navi.git
+package com.navi.git.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -8,6 +8,7 @@ import android.net.NetworkRequest
 import com.navi.logger.Logger
 import com.navi.utils.ConnectivityStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.Closeable
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 class ConnectivityMonitor @Inject constructor(
     @ApplicationContext context: Context,
     private val connectivityStore: ConnectivityStore
-) {
+): Closeable {
     private val validNetworkConnections by lazy<MutableSet<Network>> { hashSetOf() }
     private val isNetworkCallbackRegistered = AtomicBoolean(false)
 
@@ -66,7 +67,7 @@ class ConnectivityMonitor @Inject constructor(
         }
     }
 
-    fun dispose() {
+    override fun close() {
         if (isNetworkCallbackRegistered.compareAndSet(true, false)) {
             try {
                 connectivityManager.unregisterNetworkCallback(networkCallback)

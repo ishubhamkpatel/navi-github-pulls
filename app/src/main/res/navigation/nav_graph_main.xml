@@ -3,11 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/pull_requests_fragment">
+    app:startDestination="@id/user_repo_input_fragment">
+
+    <fragment
+        android:id="@+id/user_repo_input_fragment"
+        android:name="com.navi.git.features.userrepoinput.UserRepoInputFragment"
+        android:label="@string/label_fragment_user_repo_input"
+        tools:layout="@layout/fragment_user_repo_input" />
+
+    <action
+        android:id="@+id/action_user_repo_input_fragment"
+        app:destination="@id/user_repo_input_fragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/user_repo_input_fragment"
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/pull_requests_fragment"
-        android:name="com.navi.git.main.fragment.PullRequestsFragment"
+        android:name="com.navi.git.features.pullrequests.PullRequestsFragment"
         android:label="@string/label_fragment_pull_requests"
         tools:layout="@layout/fragment_pull_requests" />
 
@@ -20,7 +33,7 @@
 
     <fragment
         android:id="@+id/error_fragment"
-        android:name="com.navi.git.main.fragment.ErrorFragment"
+        android:name="com.navi.git.features.error.ErrorFragment"
         android:label="@string/label_fragment_error"
         tools:layout="@layout/fragment_error" />
 

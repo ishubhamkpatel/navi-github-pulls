@@ -1,17 +1,16 @@
-package com.navi.git.main.fragment
+package com.navi.git.features.error
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.navi.git.databinding.FragmentErrorBinding
-import com.navi.git.main.MainUiState
 import com.navi.git.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,7 +19,9 @@ import kotlinx.coroutines.launch
 class ErrorFragment : Fragment() {
     private var _binding: FragmentErrorBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<MainViewModel>()
+
+    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val viewModel by viewModels<ErrorViewModel>()
 
     /* Lifecycle */
 
@@ -40,6 +41,7 @@ class ErrorFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        detachListeners()
         _binding = null
     }
 
@@ -52,29 +54,41 @@ class ErrorFragment : Fragment() {
         }
     }
 
-    private fun resolveUiState(state: MainUiState) {
-        binding.root.isVisible = state is MainUiState.Error
+    private fun resolveUiState(state: ErrorUiState) {
         when (state) {
-            is MainUiState.Error -> bindErrorUi(state)
-            else -> {
-                // noinspection: do nothing
+            is ErrorUiState.Default -> {
+                bindToolbarUi(state)
+            }
+            is ErrorUiState.Details -> {
+                bindDetailsUi(state)
+            }
+            is ErrorUiState.Navigation -> {
+                mainViewModel.escalateNavState(state = state.mainNavState)
             }
         }
     }
 
-    private fun bindErrorUi(state: MainUiState.Error) {
-        binding.apply {
-            txtErrorTitle.text = state.title
-            txtErrorMessage.text = state.message
-            state.fallback?.let { fallback ->
-                txtFallbackBtn.apply {
-                    isVisible = true
-                    text = fallback.text
-                    setOnClickListener { viewModel.reportUiEvent(event = fallback.action) }
+    private fun bindToolbarUi(state: ErrorUiState.Default) {
+        binding.toolbar.txtToolbarTitle.text = state.toolbarTitleText
+    }
+
+    private fun bindDetailsUi(state: ErrorUiState.Details) {
+        with(binding) {
+            txtErrorTitle.text = state.titleText
+            txtErrorMessage.text = state.messageText
+            with(txtFallbackBtn) {
+                text = state.fallbackBtnText
+                setOnClickListener {
+                    viewModel.reportUiEvent(event = ErrorUiEvent.FallbackBtnClick)
                 }
-            } ?: kotlin.run {
-                txtFallbackBtn.isVisible = true
             }
+        }
+    }
+
+    private fun detachListeners() {
+        with(binding) {
+            toolbar.imgToolbarBackBtn.setOnClickListener(null)
+            txtFallbackBtn.setOnClickListener(null)
         }
     }
 }

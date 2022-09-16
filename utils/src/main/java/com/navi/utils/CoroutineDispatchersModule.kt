@@ -18,14 +18,6 @@ object CoroutineDispatchersModule {
     @IoDispatcher
     @Provides
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
-
-    @MainDispatcher
-    @Provides
-    fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
-
-    @MainImmediateDispatcher
-    @Provides
-    fun providesMainImmediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 }
 
 @Retention(AnnotationRetention.RUNTIME)
@@ -35,11 +27,3 @@ annotation class DefaultDispatcher
 @Retention(AnnotationRetention.RUNTIME)
 @Qualifier
 annotation class IoDispatcher
-
-@Retention(AnnotationRetention.RUNTIME)
-@Qualifier
-annotation class MainDispatcher
-
-@Retention(AnnotationRetention.BINARY)
-@Qualifier
-annotation class MainImmediateDispatcher

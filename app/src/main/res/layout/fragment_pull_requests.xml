@@ -3,15 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_pull_requests"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/item_pull_request"
         tools:visibility="visible" />
 
@@ -21,13 +29,26 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
-        android:text="@string/text_pull_requests_empty"
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:visibility="gone"
         app:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/text_pull_requests_empty"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/anim_rotate_progress_bar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 

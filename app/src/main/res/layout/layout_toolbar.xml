@@ -28,6 +28,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/img_toolbar_back_btn"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/text_toolbar_closed_prs" />
+        tools:text="@string/text_toolbar_github_repo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

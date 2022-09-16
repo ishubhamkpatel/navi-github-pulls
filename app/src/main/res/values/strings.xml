@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Git</string>
 
+    <string name="label_fragment_user_repo_input">UserRepoInputFragment</string>
     <string name="label_fragment_pull_requests">PullRequestsFragment</string>
     <string name="label_fragment_error">ErrorFragment</string>
 
@@ -8,12 +9,17 @@
     <string name="cd_img_pr_user">User</string>
     <string name="cd_img_error_icon">Error</string>
 
-    <string name="text_toolbar_closed_prs">Github Closed Pull Requests</string>
+    <string name="text_toolbar_github_repo">Github Repo%s</string>
+    <string name="text_user_repo_input">Please enter the repository details to fetch the\n%spull requests.</string>
+    <string name="text_user_input_repo_owner_name">Repository Owner</string>
+    <string name="text_user_input_repo_name">Repository Name</string>
+    <string name="text_user_input_pull_requests_state">Pull Requests State</string>
+    <string name="text_btn_search">Search</string>
     <string name="text_error_no_internet_title">No internet!</string>
-    <string name="text_error_no_internet_message">Looks like you don\'t have an active internet connection, \n please check your connectivity and try again.</string>
+    <string name="text_error_no_internet_message">Looks like you don\'t have an active internet connection,\nplease check your connectivity and try again.</string>
     <string name="text_error_unknown_title">Something went wrong!</string>
     <string name="text_error_unknown_message">Please try again.</string>
     <string name="text_btn_retry">Retry</string>
     <string name="text_error_title">HTTP %d</string>
-    <string name="text_pull_requests_empty">No pull requests found, \n please try again later.</string>
+    <string name="text_pull_requests_empty">No pull requests found,\nplease try again later.</string>
 </resources>

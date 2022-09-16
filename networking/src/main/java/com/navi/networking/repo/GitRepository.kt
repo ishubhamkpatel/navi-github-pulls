@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface GitRepository {
-    suspend fun fetchPullRequests(
+    fun pullRequestsFlow(
         owner: String,
         repo: String,
         state: String,
@@ -25,7 +25,7 @@ internal class GitRepositoryImpl @Inject constructor(
         private const val GIT_PR_PAGE_INDEX = 1
     }
 
-    override suspend fun fetchPullRequests(
+    override fun pullRequestsFlow(
         owner: String,
         repo: String,
         state: String,
