@@ -35,12 +35,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun simulateNavigation(navigation: MainNavigation) {
-        navigation.navDirections?.let {
-            findNavController(binding.navHostFragment.id).safeNavigate(it)
-        } ?: when (navigation) {
-            MainNavigation.Back -> onBackPressedDispatcher.onBackPressed()
-            else -> {
-                // noinspection: do nothing
+        when (navigation) {
+            MainNavigation.Back -> finish()
+            else -> navigation.navDirections?.let {
+                findNavController(binding.navHostFragment.id).safeNavigate(it)
             }
         }
     }
