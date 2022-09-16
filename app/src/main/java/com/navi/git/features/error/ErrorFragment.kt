@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,6 +26,13 @@ class ErrorFragment : Fragment() {
 
     /* Lifecycle */
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.reportUiEvent(event = ErrorUiEvent.ToolbarNavBtnClick)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +44,7 @@ class ErrorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        attachListeners()
         addSubscriptions()
     }
 
@@ -47,6 +56,12 @@ class ErrorFragment : Fragment() {
 
     /* Operations */
 
+    private fun attachListeners() {
+        binding.toolbar.imgToolbarBackBtn.setOnClickListener {
+            viewModel.reportUiEvent(event = ErrorUiEvent.ToolbarNavBtnClick)
+        }
+    }
+
     private fun addSubscriptions() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
@@ -57,9 +72,10 @@ class ErrorFragment : Fragment() {
     private fun resolveUiState(state: ErrorUiState) {
         when (state) {
             is ErrorUiState.Default -> {
-                bindToolbarUi(state)
+                bindToolbarUi(state.toolbarTitleText)
             }
             is ErrorUiState.Details -> {
+                bindToolbarUi(state.toolbarTitleText)
                 bindDetailsUi(state)
             }
             is ErrorUiState.Navigation -> {
@@ -68,8 +84,8 @@ class ErrorFragment : Fragment() {
         }
     }
 
-    private fun bindToolbarUi(state: ErrorUiState.Default) {
-        binding.toolbar.txtToolbarTitle.text = state.toolbarTitleText
+    private fun bindToolbarUi(toolbarTitleText: String) {
+        binding.toolbar.txtToolbarTitle.text = toolbarTitleText
     }
 
     private fun bindDetailsUi(state: ErrorUiState.Details) {

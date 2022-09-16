@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -44,6 +45,13 @@ class PullRequestsFragment : Fragment() {
     private val viewModel by viewModels<PullRequestsViewModel>()
 
     /* Lifecycle */
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.reportUiEvent(event = PullRequestsUiEvent.ToolbarNavBtnClick)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

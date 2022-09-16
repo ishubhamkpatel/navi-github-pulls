@@ -74,7 +74,9 @@ internal object NetworkModule {
     @Provides
     @Reusable
     @OkHttpLoggingInterceptor
-    fun provideHttpLoggingInterceptor(): Interceptor = HttpLoggingInterceptor()
+    fun provideHttpLoggingInterceptor(): Interceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
 
     @Provides
     @Reusable

@@ -70,6 +70,12 @@ class PullRequestsUseCaseImpl @Inject constructor(
 
     override suspend fun setArgs(searchUiModel: SearchUiModel) {
         this.searchUiModel = searchUiModel
+        _uiStateFlow.value = PullRequestsUiState.Default(
+            toolbarTitleText = context.getString(
+                R.string.text_toolbar_github_repo,
+                ": ${searchUiModel.repo}"
+            )
+        )
     }
 
     override suspend fun onToolbarNavBtnClicked() {
@@ -82,7 +88,8 @@ class PullRequestsUseCaseImpl @Inject constructor(
         combinedLoadStates: CombinedLoadStates,
         itemCount: Int
     ) {
-        val isListEmpty = (combinedLoadStates.refresh is LoadState.NotLoading) and (itemCount == 0)
+        val isListEmpty = ((combinedLoadStates.refresh is LoadState.NotLoading)
+                or (combinedLoadStates.refresh is LoadState.Error)) and (itemCount == 0)
         val loadState = combinedLoadStates.source.refresh
         _uiStateFlow.value = if (isListEmpty) {
             when (loadState) {

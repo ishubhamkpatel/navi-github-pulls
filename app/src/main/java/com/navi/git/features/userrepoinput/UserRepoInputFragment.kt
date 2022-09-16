@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -30,6 +31,13 @@ class UserRepoInputFragment : Fragment() {
     private val viewModel by viewModels<UserRepoInputViewModel>()
 
     /* Lifecycle */
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.reportUiEvent(event = UserRepoInputUiEvent.ToolbarNavBtnClick)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

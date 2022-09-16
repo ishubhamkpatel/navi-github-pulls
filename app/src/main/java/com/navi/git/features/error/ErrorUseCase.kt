@@ -38,7 +38,12 @@ class ErrorUseCaseImpl @Inject constructor(
 
     override suspend fun setArgs(searchUiModel: SearchUiModel, errorUiModel: ErrorUiModel) {
         this.searchUiModel = searchUiModel
-        _uiStateFlow.value = ErrorUiState.Details(errorUiModel = errorUiModel)
+        _uiStateFlow.value = ErrorUiState.Details(
+            toolbarTitleText = context.getString(
+                R.string.text_toolbar_github_repo,
+                ": ${searchUiModel.repo}"
+            ), errorUiModel = errorUiModel
+        )
     }
 
     override suspend fun onToolbarNavBtnClicked() {
