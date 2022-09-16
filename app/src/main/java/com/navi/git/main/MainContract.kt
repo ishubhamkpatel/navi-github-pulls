@@ -1,14 +1,29 @@
 package com.navi.git.main
 
-import androidx.annotation.IdRes
-import com.navi.git.R
+import androidx.navigation.NavDirections
+import com.navi.git.NavGraphMainDirections
+import com.navi.git.models.ErrorUiModel
+import com.navi.git.models.SearchUiModel
 
-sealed class MainNavState(@IdRes val id: Int?) {
-    object Back : MainNavState(null)
+sealed class MainNavigation(val navDirections: NavDirections? = null) {
+    object Back : MainNavigation()
 
-    object UserRepoInput : MainNavState(R.id.action_user_repo_input_fragment)
+    data class UserRepoInput(
+        val searchUiModel: SearchUiModel
+    ) : MainNavigation(
+        NavGraphMainDirections.actionUserRepoInputFragment(searchUiModel)
+    )
 
-    object PullRequests : MainNavState(R.id.action_pull_requests_fragment)
+    data class PullRequests(
+        val searchUiModel: SearchUiModel
+    ) : MainNavigation(
+        NavGraphMainDirections.actionPullRequestsFragment(searchUiModel)
+    )
 
-    object Error : MainNavState(R.id.action_error_fragment)
+    data class Error(
+        val errorUiModel: ErrorUiModel,
+        val searchUiModel: SearchUiModel
+    ) : MainNavigation(
+        NavGraphMainDirections.actionErrorFragment(searchUiModel, errorUiModel)
+    )
 }

@@ -4,4 +4,5 @@ object Modules {
     const val img = ":img"
     const val logger = ":logger"
     const val utils = ":utils"
+    const val secrets = ":secrets"
 }

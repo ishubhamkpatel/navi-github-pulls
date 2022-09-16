@@ -14,6 +14,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        externalNativeBuild {
+            cmake {
+                cppFlags("")
+            }
+        }
     }
 
     buildTypes {
@@ -23,6 +28,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path("src/main/cpp/CMakeLists.txt")
+            version = "3.18.1"
         }
     }
     compileOptions {
@@ -37,23 +48,13 @@ android {
 dependencies {
 
     implementation(project(Modules.logger))
-    implementation(project(Modules.utils))
-    implementation(project(Modules.secrets))
 
-    implementation(Deps.Jetpack.paging)
+    implementation(Deps.AndroidX.core)
     implementation(Deps.Google.Hilt.android)
     kapt(Deps.Google.Hilt.compiler)
-    implementation(Deps.Square.OkHttp.okhttp)
-    implementation(Deps.Square.OkHttp.loggingInterceptor)
-    implementation(Deps.Square.Retrofit.retrofit)
-    implementation(Deps.Square.Retrofit.moshiConverter)
-    implementation(Deps.Coroutines.core)
+    implementation(Deps.relinker)
 
     testImplementation(Test.junit)
     androidTestImplementation(Test.junitExt)
     androidTestImplementation(Test.espresso)
-}
-
-kapt {
-    correctErrorTypes = true
 }

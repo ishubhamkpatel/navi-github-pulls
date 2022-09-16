@@ -6,8 +6,10 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.navi.git.R
-import com.navi.git.main.MainNavState
+import com.navi.git.main.MainNavigation
+import com.navi.git.models.ErrorUiModel
 import com.navi.git.models.PullRequestUiModel
+import com.navi.git.models.SearchUiModel
 import com.navi.git.models.toUiModel
 import com.navi.logger.Logger
 import com.navi.networking.models.ErrorModel
@@ -26,6 +28,7 @@ interface PullRequestsUseCase {
     val uiStateFlow: StateFlow<PullRequestsUiState>
     fun pullRequestsFlow(): Flow<PagingData<PullRequestUiModel>>
 
+    suspend fun setArgs(searchUiModel: SearchUiModel)
     suspend fun onToolbarNavBtnClicked()
     suspend fun onLoadStateChanged(combinedLoadStates: CombinedLoadStates, itemCount: Int)
     suspend fun onItemClicked(pullRequest: PullRequestUiModel)
@@ -42,6 +45,8 @@ class PullRequestsUseCaseImpl @Inject constructor(
         private const val PAGE_SIZE = 25
     }
 
+    private lateinit var searchUiModel: SearchUiModel
+
     private val _uiStateFlow by lazy {
         MutableStateFlow<PullRequestsUiState>(
             PullRequestsUiState.Default(
@@ -54,18 +59,22 @@ class PullRequestsUseCaseImpl @Inject constructor(
 
     override fun pullRequestsFlow(): Flow<PagingData<PullRequestUiModel>> {
         return gitRepository.pullRequestsFlow(
-            owner = "octocat",
-            repo = "Hello-World",
-            state = "closed",
+            owner = searchUiModel.owner,
+            repo = searchUiModel.repo,
+            state = searchUiModel.prState,
             pageSize = PAGE_SIZE
         ).flowOn(ioDispatcher).map { pagingData ->
             pagingData.map { it.toUiModel() }
         }.flowOn(defaultDispatcher)
     }
 
+    override suspend fun setArgs(searchUiModel: SearchUiModel) {
+        this.searchUiModel = searchUiModel
+    }
+
     override suspend fun onToolbarNavBtnClicked() {
         _uiStateFlow.value = PullRequestsUiState.Navigation(
-            mainNavState = MainNavState.UserRepoInput
+            navigation = MainNavigation.UserRepoInput(searchUiModel = searchUiModel)
         )
     }
 
@@ -80,7 +89,10 @@ class PullRequestsUseCaseImpl @Inject constructor(
                 LoadState.Loading -> PullRequestsUiState.Loading
                 is LoadState.Error -> {
                     PullRequestsUiState.Navigation(
-                        mainNavState = MainNavState.Error
+                        navigation = MainNavigation.Error(
+                            searchUiModel = searchUiModel,
+                            errorUiModel = constructError(loadState)
+                        )
                     )
                 }
                 else -> PullRequestsUiState.Empty(
@@ -92,10 +104,18 @@ class PullRequestsUseCaseImpl @Inject constructor(
         }
     }
 
-    private suspend fun constructError(
-        loadState: LoadState.Error
-    ) = withContext(defaultDispatcher) {
-        loadState.error.message?.parse<ErrorModel>()
+    private suspend fun constructError(loadState: LoadState.Error): ErrorUiModel {
+        return withContext(defaultDispatcher) {
+            val errorModel = loadState.error.message?.parse<ErrorModel>()
+            return@withContext ErrorUiModel(
+                title = errorModel?.code?.let {
+                    context.getString(R.string.text_error_title, it)
+                } ?: context.getString(R.string.text_error_unknown_title),
+                message = errorModel?.message
+                    ?: context.getString(R.string.text_error_unknown_message),
+                fallbackBtn = context.getString(R.string.text_btn_retry)
+            )
+        }
     }
 
     override suspend fun onItemClicked(pullRequest: PullRequestUiModel) {

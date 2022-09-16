@@ -2,7 +2,8 @@ package com.navi.git.features.userrepoinput
 
 import android.content.Context
 import com.navi.git.R
-import com.navi.git.main.MainNavState
+import com.navi.git.main.MainNavigation
+import com.navi.git.models.SearchUiModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,9 +14,10 @@ import javax.inject.Inject
 interface UserRepoInputUseCase {
     val uiStateFlow: StateFlow<UserRepoInputUiState>
 
+    suspend fun setArgs(searchUiModel: SearchUiModel)
     suspend fun onToolbarNavBtnClicked()
     suspend fun onPRQueryTextChanged(text: String?)
-    suspend fun onSearchBtnClicked(owner: String, repo: String, prState: String)
+    suspend fun onSearchBtnClicked(searchUiModel: SearchUiModel)
 }
 
 @ViewModelScoped
@@ -35,8 +37,18 @@ class UserRepoInputUseCaseImpl @Inject constructor(
     override val uiStateFlow: StateFlow<UserRepoInputUiState>
         get() = _uiStateFlow.asStateFlow()
 
+    override suspend fun setArgs(searchUiModel: SearchUiModel) {
+        _uiStateFlow.value = UserRepoInputUiState.Default(
+            toolbarTitleText = context.getString(
+                R.string.text_toolbar_github_repo,
+                ""
+            ),
+            searchUiModel = searchUiModel
+        )
+    }
+
     override suspend fun onToolbarNavBtnClicked() {
-        _uiStateFlow.value = UserRepoInputUiState.Navigation(mainNavState = MainNavState.Back)
+        _uiStateFlow.value = UserRepoInputUiState.Navigation(navigation = MainNavigation.Back)
     }
 
     override suspend fun onPRQueryTextChanged(text: String?) {
@@ -49,9 +61,9 @@ class UserRepoInputUseCaseImpl @Inject constructor(
         )
     }
 
-    override suspend fun onSearchBtnClicked(owner: String, repo: String, prState: String) {
+    override suspend fun onSearchBtnClicked(searchUiModel: SearchUiModel) {
         _uiStateFlow.value = UserRepoInputUiState.Navigation(
-            mainNavState = MainNavState.PullRequests
+            navigation = MainNavigation.PullRequests(searchUiModel = searchUiModel)
         )
     }
 }

@@ -1,7 +1,7 @@
 package com.navi.git.features.pullrequests
 
 import androidx.paging.CombinedLoadStates
-import com.navi.git.main.MainNavState
+import com.navi.git.main.MainNavigation
 import com.navi.git.models.PullRequestUiModel
 
 sealed interface PullRequestsUiState {
@@ -13,7 +13,7 @@ sealed interface PullRequestsUiState {
 
     data class Empty(val pageText: String) : PullRequestsUiState
 
-    data class Navigation(val mainNavState: MainNavState) : PullRequestsUiState
+    data class Navigation(val navigation: MainNavigation) : PullRequestsUiState
 }
 
 sealed interface PullRequestsUiEvent {

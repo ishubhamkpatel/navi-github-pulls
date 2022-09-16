@@ -19,6 +19,7 @@ object Versions {
     const val coroutines = "1.6.4"
     const val coil = "2.2.1"
     const val timber = "5.0.1"
+    const val relinker = "1.4.5"
 
     const val jUnit = "4.13.2"
     const val jUnitExt = "1.1.3"

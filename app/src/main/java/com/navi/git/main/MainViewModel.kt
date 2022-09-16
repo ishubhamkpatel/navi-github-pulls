@@ -18,9 +18,9 @@ class MainViewModel @Inject constructor(
         connectivityMonitor.init()
     }
 
-    fun escalateNavState(state: MainNavState) {
+    fun escalateNavigation(navigation: MainNavigation) {
         viewModelScope.launch {
-            mainUseCase.reportNavState(state = state)
+            mainUseCase.navigate(navigation = navigation)
         }
     }
 }

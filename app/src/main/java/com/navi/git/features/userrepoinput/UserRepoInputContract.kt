@@ -1,13 +1,17 @@
 package com.navi.git.features.userrepoinput
 
-import com.navi.git.main.MainNavState
+import com.navi.git.main.MainNavigation
+import com.navi.git.models.SearchUiModel
 
 sealed interface UserRepoInputUiState {
-    data class Default(val toolbarTitleText: String) : UserRepoInputUiState
+    data class Default(
+        val toolbarTitleText: String,
+        val searchUiModel: SearchUiModel? = null
+    ) : UserRepoInputUiState
 
     data class PRQuery(val pageHintText: String) : UserRepoInputUiState
 
-    data class Navigation(val mainNavState: MainNavState) : UserRepoInputUiState
+    data class Navigation(val navigation: MainNavigation) : UserRepoInputUiState
 }
 
 sealed interface UserRepoInputUiEvent {

@@ -34,11 +34,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun simulateNavigation(state: MainNavState) {
-        state.id?.let {
+    private fun simulateNavigation(navigation: MainNavigation) {
+        navigation.navDirections?.let {
             findNavController(binding.navHostFragment.id).safeNavigate(it)
-        } ?: when (state) {
-            MainNavState.Back -> onBackPressedDispatcher.onBackPressed()
+        } ?: when (navigation) {
+            MainNavigation.Back -> onBackPressedDispatcher.onBackPressed()
             else -> {
                 // noinspection: do nothing
             }

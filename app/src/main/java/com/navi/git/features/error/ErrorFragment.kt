@@ -63,7 +63,7 @@ class ErrorFragment : Fragment() {
                 bindDetailsUi(state)
             }
             is ErrorUiState.Navigation -> {
-                mainViewModel.escalateNavState(state = state.mainNavState)
+                mainViewModel.escalateNavigation(navigation = state.navigation)
             }
         }
     }
@@ -73,11 +73,12 @@ class ErrorFragment : Fragment() {
     }
 
     private fun bindDetailsUi(state: ErrorUiState.Details) {
+        val errorUiModel = state.errorUiModel
         with(binding) {
-            txtErrorTitle.text = state.titleText
-            txtErrorMessage.text = state.messageText
+            txtErrorTitle.text = errorUiModel.title
+            txtErrorMessage.text = errorUiModel.message
             with(txtFallbackBtn) {
-                text = state.fallbackBtnText
+                text = errorUiModel.fallbackBtn
                 setOnClickListener {
                     viewModel.reportUiEvent(event = ErrorUiEvent.FallbackBtnClick)
                 }

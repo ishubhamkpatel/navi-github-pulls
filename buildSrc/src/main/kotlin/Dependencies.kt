@@ -8,6 +8,7 @@ object Deps {
         object Lifecycle {
             val viewModel by lazy { "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}" }
             val runtime by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}" }
+            val savedState by lazy { "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}" }
         }
     }
 
@@ -16,6 +17,7 @@ object Deps {
         val fragment by lazy { "androidx.fragment:fragment-ktx:${Versions.fragment}" }
 
         object Navigation {
+            val gradlePlugin by lazy { "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}" }
             val fragment by lazy { "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}" }
             val ui by lazy { "androidx.navigation:navigation-ui-ktx:${Versions.navigation}" }
         }
@@ -54,6 +56,7 @@ object Deps {
 
     val coil by lazy { "io.coil-kt:coil:${Versions.coil}" }
     val timber by lazy { "com.jakewharton.timber:timber:${Versions.timber}" }
+    val relinker by lazy { "com.getkeepsafe.relinker:relinker:${Versions.relinker}" }
 }
 
 object Test {

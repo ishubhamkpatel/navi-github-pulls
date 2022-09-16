@@ -96,19 +96,26 @@ class UserRepoInputFragment : Fragment() {
     private fun resolveUiState(state: UserRepoInputUiState) {
         when (state) {
             is UserRepoInputUiState.Default -> {
-                bindToolbarUi(state)
+                bindDefaultUi(state)
             }
             is UserRepoInputUiState.PRQuery -> {
                 bindPageHintUi(state)
             }
             is UserRepoInputUiState.Navigation -> {
-                mainViewModel.escalateNavState(state = state.mainNavState)
+                mainViewModel.escalateNavigation(navigation = state.navigation)
             }
         }
     }
 
-    private fun bindToolbarUi(state: UserRepoInputUiState.Default) {
-        binding.toolbar.txtToolbarTitle.text = state.toolbarTitleText
+    private fun bindDefaultUi(state: UserRepoInputUiState.Default) {
+        with(binding) {
+            state.searchUiModel?.let { searchUiModel ->
+                editTxtRepoOwnerName.setText(searchUiModel.owner)
+                editTxtRepoName.setText(searchUiModel.repo)
+                editTxtPullRequestsState.setText(searchUiModel.prState)
+            }
+            toolbar.txtToolbarTitle.text = state.toolbarTitleText
+        }
     }
 
     private fun bindPageHintUi(state: UserRepoInputUiState.PRQuery) {

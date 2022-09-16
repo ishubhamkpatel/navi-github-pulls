@@ -111,7 +111,7 @@ class PullRequestsFragment : Fragment() {
                 bindEmptyUi(state)
             }
             is PullRequestsUiState.Navigation -> {
-                mainViewModel.escalateNavState(state = state.mainNavState)
+                mainViewModel.escalateNavigation(navigation = state.navigation)
             }
             else -> {
                 // noinspection: do nothing

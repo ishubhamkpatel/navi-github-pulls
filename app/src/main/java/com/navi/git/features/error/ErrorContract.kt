@@ -1,17 +1,14 @@
 package com.navi.git.features.error
 
-import com.navi.git.main.MainNavState
+import com.navi.git.main.MainNavigation
+import com.navi.git.models.ErrorUiModel
 
 sealed interface ErrorUiState {
     data class Default(val toolbarTitleText: String) : ErrorUiState
 
-    data class Details(
-        val titleText: String,
-        val messageText: String,
-        val fallbackBtnText: String
-    ) : ErrorUiState
+    data class Details(val errorUiModel: ErrorUiModel) : ErrorUiState
 
-    data class Navigation(val mainNavState: MainNavState) : ErrorUiState
+    data class Navigation(val navigation: MainNavigation) : ErrorUiState
 }
 
 sealed interface ErrorUiEvent {
