@@ -16,8 +16,8 @@ import com.navi.git.main.MainViewModel
 import com.navi.utils.safeLet
 import com.navi.utils.textChanges
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -51,6 +51,7 @@ class UserRepoInputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         attachListeners()
+        addFlowBindings()
         addSubscriptions()
     }
 
@@ -85,20 +86,34 @@ class UserRepoInputFragment : Fragment() {
         }
     }
 
-    @OptIn(FlowPreview::class)
+    private fun addFlowBindings() {
+        val prStateTextFlow = binding.editTxtPullRequestsState.textChanges().apply {
+                onEach {
+                    viewModel.reportUiEvent(
+                        event = UserRepoInputUiEvent.PRQueryTextChange(
+                            text = it?.toString()
+                        )
+                    )
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            combine(
+                binding.editTxtRepoOwnerName.textChanges(),
+                binding.editTxtRepoName.textChanges(),
+                prStateTextFlow
+            ) { _, _, _ ->
+                shouldDisableBtn()
+            }.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collectLatest {
+                toggleBtnUi(it)
+            }
+        }
+    }
+
     private fun addSubscriptions() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { resolveUiState(it) }
         }
-        binding.editTxtPullRequestsState.textChanges().debounce(300)
-            .onEach {
-                viewModel.reportUiEvent(
-                    event = UserRepoInputUiEvent.PRQueryTextChange(
-                        text = it?.toString()
-                    )
-                )
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun resolveUiState(state: UserRepoInputUiState) {
@@ -122,12 +137,28 @@ class UserRepoInputFragment : Fragment() {
                 editTxtRepoName.setText(searchUiModel.repo)
                 editTxtPullRequestsState.setText(searchUiModel.prState)
             }
+            toggleBtnUi(shouldDisableBtn())
             toolbar.txtToolbarTitle.text = state.toolbarTitleText
         }
     }
 
     private fun bindPageHintUi(state: UserRepoInputUiState.PRQuery) {
         binding.txtUserRepoInput.text = state.pageHintText
+    }
+
+    private fun toggleBtnUi(disable: Boolean) {
+        with(binding.txtSearchBtn) {
+            isEnabled = !disable
+            alpha = if (disable) 0.5f else 1f
+        }
+    }
+
+    private fun shouldDisableBtn(): Boolean {
+        return with(binding) {
+            editTxtRepoOwnerName.text.isNullOrEmpty() or
+                    editTxtRepoName.text.isNullOrEmpty() or
+                    editTxtPullRequestsState.text.isNullOrEmpty()
+        }
     }
 
     private fun detachListeners() {
