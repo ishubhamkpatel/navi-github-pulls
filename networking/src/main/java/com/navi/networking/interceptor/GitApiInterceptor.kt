@@ -1,13 +1,10 @@
 package com.navi.networking.interceptor
 
 import com.navi.secrets.Secrets
-import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
-@Reusable
-internal class GitApiInterceptor @Inject constructor(private val secrets: Secrets) : Interceptor {
+internal class GitApiInterceptor(private val secrets: Secrets) : Interceptor {
     companion object {
         private const val HEADER_AUTH_KEY = "Authorization"
         private const val HEADER_AUTH_TOKEN_TYPE = "Bearer"

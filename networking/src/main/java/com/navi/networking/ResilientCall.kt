@@ -49,7 +49,7 @@ private fun <T> Response<T>.inspection(): IOException {
     val message = this.errorBody()?.let {
         runCatching { it.string() }.getOrDefault(this.message())
     } ?: this.message()
-    val errorModel = ErrorModel(this.code(), ErrorModel.ErrorMessageModel(message))
+    val errorModel = ErrorModel(this.code(), message)
     return IOException(errorModel.stringify()) // currently retrying for all sorts of failures
 }
 

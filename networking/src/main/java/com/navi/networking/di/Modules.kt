@@ -6,6 +6,7 @@ import com.navi.networking.ApiManagerImpl
 import com.navi.networking.interceptor.GitApiInterceptor
 import com.navi.networking.repo.GitRepository
 import com.navi.networking.repo.GitRepositoryImpl
+import com.navi.secrets.Secrets
 import com.navi.utils.moshi
 import dagger.Binds
 import dagger.Module
@@ -78,5 +79,5 @@ internal object NetworkModule {
     @Provides
     @Reusable
     @GitHubApiInterceptor
-    fun provideGitApiInterceptor(): Interceptor = GitApiInterceptor()
+    fun provideGitApiInterceptor(secrets: Secrets): Interceptor = GitApiInterceptor(secrets)
 }
